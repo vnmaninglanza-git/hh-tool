@@ -1,0 +1,16 @@
+services:
+  hh-tool:
+    build: .
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    environment:
+      - HH_LOG_DIR=/app/logs
+      - HH_CONFIG=/app/data/config.json
+      - HH_NO_BROWSER=1
+      - OLLAMA_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

@@ -1,0 +1,7 @@
+__pycache__
+/.venv
+/dist
+employers.txt
+sites.txt
+output.json
+config.json

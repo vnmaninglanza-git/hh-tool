@@ -1,0 +1,15 @@
+# Sensitive data
+config.json
+data/
+logs/
+__pycache__/
+*.pyc
+
+# Venv
+.venv/
+
+# Docker
+.docker/
+
+# OS
+.DS_Store

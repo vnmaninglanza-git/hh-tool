@@ -1,0 +1,39 @@
+
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+      
+    - name: Set Image Tag
+      id: image-tag
+      run: echo "IMAGE_TAG=my-app:$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+
+    - name: Build Docker image
+      run: |
+        docker build --file Dockerfile --tag ${{ env.IMAGE_TAG }} .
+        
+    - name: Stop all running containers
+      run: |
+        docker ps -q | xargs -r docker stop
+
+    - name: Remove all containers
+      run: |
+        docker ps -a -q | xargs -r docker rm
+      
+
+    - name: Run Docker container
+      run: |
+        docker run -d --name hhAPI  ${{ env.IMAGE_TAG }}
